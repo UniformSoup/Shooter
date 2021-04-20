@@ -3,10 +3,7 @@
 namespace Camera
 {
 	Camera::Camera(const glm::vec3& pos, const glm::vec3& dir, const float& speed, const float& sensitivity, const float& yanglelimit)
-	: direction(glm::normalize(dir)), position(pos), sensitivity(sensitivity), ylimit(yanglelimit), speed(speed)
-	{
-		yangle = asin(direction.y); xangle = asin(direction.z / cos(yangle));
-	}
+	: direction(glm::normalize(dir)), position(pos), sensitivity(sensitivity), ylimit(yanglelimit), speed(speed) {}
 
 	void Camera::move(const float& dt, const Direction& d)
 	{
@@ -31,6 +28,25 @@ namespace Camera
 			position -= glm::vec3(0, 1, 0);
 			break;
 		}
+	}
+
+	void Camera::rotate(const float& dx, const float& dy)
+	{
+		glm::vec2 angles = getAngles(direction);
+		angles.x += dx; angles.y += dy;
+		if (abs(angles.y) > ylimit) angles.y = ylimit * (abs(angles.y) / angles.y);
+
+		direction = getDirection(angles);
+	}
+
+	void Camera::rotate(const glm::vec2& delta_angles)
+	{
+		glm::vec2 angles = getAngles(direction);
+		angles += delta_angles;
+		if (abs(angles.y) > ylimit) angles.y = ylimit * (abs(angles.y) / angles.y);
+
+		direction = getDirection(angles);
+		// use case: rotate(camera.getSensitivity() * {glm::radians(xpos - windowwidth / 2), glm::radians(windowheight / 2 - ypos)});
 	}
 
 }
