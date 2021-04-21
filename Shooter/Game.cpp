@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "MainMenu.h"
 
 Game::Game(const char* title, const int& width, const int& height)
 {
@@ -10,28 +11,28 @@ Game::Game(const char* title, const int& width, const int& height)
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	win = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	data.win = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
-	glfwMakeContextCurrent(win);
-	glfwSetCursorPos(win, width / 2, height / 2);
-	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+	glfwMakeContextCurrent(data.win);
+	glfwSetCursorPos(data.win, width / 2, height / 2);
+	glfwSetInputMode(data.win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	glViewport(0, 0, width, height);
+
+	data.s.addState(new MainMenu(&data));
+	data.s.updateState();
 }
 
 int Game::run()
 {
 	try
 	{
-		while (!glfwWindowShouldClose(win))
+		while (!glfwWindowShouldClose(data.win))
 		{
-			glfwPollEvents();
-			if (glfwGetKey(win, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(win, true);
-
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			glfwSwapBuffers(win);
+			data.s.getCurrentState().update(clk());
+			data.s.getCurrentState().render();
+			data.s.updateState();
 		}
 		return EXIT_SUCCESS;
 	}
