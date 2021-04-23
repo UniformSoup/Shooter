@@ -4,7 +4,7 @@
 namespace Timing
 {
 	using namespace std::chrono;
-	using duration = high_resolution_clock::duration;
+	using duration = std::chrono::duration<double>;
 	using time_point = high_resolution_clock::time_point;
 	using clock = high_resolution_clock;
 
@@ -17,9 +17,9 @@ namespace Timing
 		/* Returns the elapsed time since it was last called */
 		inline duration operator()()
 		{
-			auto duration = (clock::now() - start);
+			duration dur = (clock::now() - start);
 			start = clock::now();
-			return duration;
+			return dur;
 		}
 	};
 

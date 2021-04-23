@@ -8,10 +8,12 @@
 
 #include "Timing.h"
 #include "StateMachine.h"
+#include "Camera.h"
 
 struct Data
 {
 	GLFWwindow* win = nullptr;
+	Camera cam;
 	StateMachine s;
 };
 
@@ -23,4 +25,5 @@ class Game
 public:
 	Game(const char* title, const int& width, const int& height);
 	int run();
+	~Game() { glfwDestroyWindow(data.win); }
 };

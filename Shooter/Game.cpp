@@ -30,6 +30,7 @@ int Game::run()
 	{
 		while (!glfwWindowShouldClose(data.win))
 		{
+			glfwPollEvents();
 			data.s.getCurrentState().update(clk());
 			data.s.getCurrentState().render();
 			data.s.updateState();

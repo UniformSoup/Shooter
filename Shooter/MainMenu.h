@@ -11,8 +11,12 @@ public:
 	MainMenu(Data* const pdata) : GameState(pdata) {};
 	void update(const Timing::duration& elapsed)
 	{
-		glfwPollEvents();
 		if (glfwGetKey(pdata->win, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(pdata->win, true);
+		if (glfwGetKey(pdata->win, GLFW_KEY_W)) pdata->cam.move((float) elapsed.count(), Direction::FORWARD);
+		if (glfwGetKey(pdata->win, GLFW_KEY_S)) pdata->cam.move((float) elapsed.count(), Direction::BACKWARD);
+		if (glfwGetKey(pdata->win, GLFW_KEY_A)) pdata->cam.move((float) elapsed.count(), Direction::LEFT);
+		if (glfwGetKey(pdata->win, GLFW_KEY_D)) pdata->cam.move((float) elapsed.count(), Direction::RIGHT);
+
 	};
 	void render()
 	{
