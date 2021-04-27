@@ -5,6 +5,8 @@
 #include <GLFW/glfw3.h>
 #include "Game.h"
 
+#include "glm/glm.hpp"
+
 const float imageverts[] = {
 	-0.5f, -0.5f, 0.f,
 	0.5f, 0.5f, 0.f,
@@ -56,11 +58,20 @@ public:
 
 	void update(const Timing::duration& elapsed)
 	{
+		glfwPollEvents();
 		if (glfwGetKey(pdata->win, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(pdata->win, true);
 		if (glfwGetKey(pdata->win, GLFW_KEY_W)) pdata->cam.move((float)elapsed.count(), Direction::FORWARD);
 		if (glfwGetKey(pdata->win, GLFW_KEY_S)) pdata->cam.move((float)elapsed.count(), Direction::BACKWARD);
 		if (glfwGetKey(pdata->win, GLFW_KEY_A)) pdata->cam.move((float)elapsed.count(), Direction::LEFT);
 		if (glfwGetKey(pdata->win, GLFW_KEY_D)) pdata->cam.move((float)elapsed.count(), Direction::RIGHT);
+		
+		const double windowwidth = 1080.0;
+		const double windowheight = 720.0;
+		double xpos, ypos;
+		glfwGetCursorPos(pdata->win, &xpos, &ypos);
+		glfwSetCursorPos(pdata->win, windowwidth / 2.f, windowheight / 2.f);
+		if (!(xpos == windowwidth / 2.0 && ypos == windowheight / 2.0))
+			pdata->cam.rotate(pdata->cam.getSensitivity() * glm::vec2(glm::radians(xpos - windowwidth / 2.f), glm::radians(windowheight / 2.f - ypos)));
 		total += (float) elapsed.count();
 	};
 
@@ -69,7 +80,7 @@ public:
 		pdata->shader.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// pdata->cam.setView(pdata->shader.getUniformLoc("view"));
+		pdata->cam.setView(pdata->shader.getUniformLoc("view"));
 		glUniform1f(pdata->shader.getUniformLoc("t"), total);
 		
 		glBindVertexArray(vao);

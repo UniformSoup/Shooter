@@ -34,7 +34,11 @@ public:
 	}
 
 	/* Assumes you werent a smoothbrain and passed a normalised vector */
-	inline static glm::vec2 getAngles(const glm::vec3& dir) { return glm::vec2(asin(dir.z / cos(asin(dir.y))), asin(dir.y)); }
+	inline static glm::vec2 getAngles(const glm::vec3& dir)
+	{
+		return glm::vec2(atan2f(dir.z, dir.x), asin(dir.y));
+		//return glm::vec2(asin(dir.z / cos(asin(dir.y))), asin(dir.y));
+	}
 
 	Camera(const glm::vec3& pos = glm::vec3(0, 0, 3), const glm::vec3& dir = glm::vec3(0, 0, -1),
 		const float& speed = 5.f, const float& sensitivity = 0.05f, const float& yanglelimit = 1.2f);
