@@ -42,6 +42,9 @@ Game::Game(const char* title, const int& width, const int& height)
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	glViewport(0, 0, width, height);
+
+	data.windowwidth = width;
+	data.windowheight = height;
 }
 
 int Game::run()
@@ -51,10 +54,8 @@ int Game::run()
 		data.shader.create("shader.vert", "shader.frag");
 		data.shader.use();
 
-		int width, height;
-		glfwGetWindowSize(data.win, &width, &height);
 		glUniformMatrix4fv(data.shader.getUniformLoc("projection"), 1, GL_FALSE,
-			glm::value_ptr(glm::perspective(glm::radians(45.0f), (float)(width / height), 0.1f, 200.0f)));
+			glm::value_ptr(glm::perspective(glm::radians(75.0f), (float)(data.windowwidth / data.windowheight), 0.1f, 200.0f)));
 
 		glClearColor(1.f, 0.f, 1.f, 1.f);
 		//glEnable(GL_DEPTH_TEST);

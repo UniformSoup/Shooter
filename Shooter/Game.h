@@ -15,6 +15,7 @@
 struct Data
 {
 	GLFWwindow* win = nullptr;
+	double windowwidth, windowheight;
 	Camera cam;
 	StateMachine stateMachine;
 	Shader shader;

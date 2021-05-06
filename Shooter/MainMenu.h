@@ -64,14 +64,19 @@ public:
 		if (glfwGetKey(pdata->win, GLFW_KEY_S)) pdata->cam.move((float)elapsed.count(), Direction::BACKWARD);
 		if (glfwGetKey(pdata->win, GLFW_KEY_A)) pdata->cam.move((float)elapsed.count(), Direction::LEFT);
 		if (glfwGetKey(pdata->win, GLFW_KEY_D)) pdata->cam.move((float)elapsed.count(), Direction::RIGHT);
-		
-		const double windowwidth = 1080.0;
-		const double windowheight = 720.0;
+	
 		double xpos, ypos;
 		glfwGetCursorPos(pdata->win, &xpos, &ypos);
-		glfwSetCursorPos(pdata->win, windowwidth / 2.f, windowheight / 2.f);
-		if (!(xpos == windowwidth / 2.0 && ypos == windowheight / 2.0))
-			pdata->cam.rotate(pdata->cam.getSensitivity() * glm::vec2(glm::radians(xpos - windowwidth / 2.f), glm::radians(windowheight / 2.f - ypos)));
+		glfwSetCursorPos(pdata->win, pdata->windowwidth / 2.f, pdata->windowheight / 2.f);
+
+		pdata->cam.rotate(
+			pdata->cam.getSensitivity() * 
+			glm::vec2(
+				glm::radians(xpos - pdata->windowwidth / 2.f),
+				glm::radians(pdata->windowheight / 2.f - ypos)
+			)
+		);
+
 		total += (float) elapsed.count();
 	};
 
