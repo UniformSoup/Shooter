@@ -165,7 +165,14 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Timing.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shader.frag" />
+    <None Include="shaders\shader.vert" />
+    <None Include="shaders\shader_texture.frag" />
+    <None Include="shaders\shader_texture.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

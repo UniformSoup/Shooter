@@ -5,7 +5,6 @@ std::string getErrorEnumString(const GLenum& err)
 {
 	switch (err)
 	{
-	case GL_NO_ERROR:						return "GL_NO_ERROR";
 	case GL_INVALID_ENUM:					return "GL_INVALID_ENUM";
 	case GL_INVALID_VALUE:					return "GL_INVALID_VALUE";
 	case GL_INVALID_OPERATION:				return "GL_INVALID_OPERATION";
@@ -13,7 +12,7 @@ std::string getErrorEnumString(const GLenum& err)
 	case GL_OUT_OF_MEMORY:					return "GL_OUT_OF_MEMORY";
 	case GL_STACK_UNDERFLOW:				return "GL_STACK_UNDERFLOW";
 	case GL_STACK_OVERFLOW:					return "GL_STACK_OVERFLOW";
-	default:								return "GL_GIVE_UP_LMAO";
+	default:								return "GL_NO_ERROR";
 	}
 }
 
@@ -51,7 +50,8 @@ int Game::run()
 {
 	try
 	{
-		data.shader.create("shader.vert", "shader.frag");
+		//data.shader.create("shaders/shader.vert", "shaders/shader.frag");
+		data.shader.create("shaders/shader_texture.vert", "shaders/shader_texture.frag");
 		data.shader.use();
 
 		glUniformMatrix4fv(data.shader.getUniformLoc("projection"), 1, GL_FALSE,

@@ -7,6 +7,8 @@
 
 #include "glm/glm.hpp"
 
+#include "Texture.h"
+
 const float imageverts[] = {
 	-0.5f, -0.5f, 0.f,
 	0.5f, 0.5f, 0.f,
@@ -20,24 +22,27 @@ const float imageverts[] = {
 const float imagetexco[] =
 {
 	0.f, 0.f,
-	0.f, 1.f,
 	1.f, 1.f,
+	0.f, 1.f,
 
 	0.f, 0.f,
-	1.f, 1.f,
-	1.f, 0.f
+	1.f, 0.f,
+	1.f, 1.f
 };
 
 class MainMenu : public GameState
 {
-	unsigned int vao, vertbuf, texcobuf = NULL;
+	unsigned int vao, vertbuf, texcobuf;
 	float total = 0.f;
+
+	Texture t;
 public:
 	MainMenu(Data* const pdata)
-		: GameState(pdata)
+		: GameState(pdata), t("assets/harold.png")
 	{
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &vertbuf);
+		glGenBuffers(1, &texcobuf);
 
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vertbuf);
@@ -45,6 +50,11 @@ public:
 		glBufferData(GL_ARRAY_BUFFER, sizeof(imageverts), imageverts, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, texcobuf);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(imagetexco), imagetexco, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), nullptr);
+		glEnableVertexAttribArray(1);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
@@ -54,6 +64,7 @@ public:
 	{
 		glDeleteVertexArrays(1, &vao);
 		glDeleteBuffers(1, &vertbuf);
+		glDeleteBuffers(1, &texcobuf);
 	};
 
 	void update(const Timing::duration& elapsed)
@@ -77,17 +88,21 @@ public:
 			)
 		);
 
+
+
 		total += (float) elapsed.count();
 	};
 
 	void render()
 	{
-		pdata->shader.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		pdata->shader.use();
 
 		pdata->cam.setView(pdata->shader.getUniformLoc("view"));
-		glUniform1f(pdata->shader.getUniformLoc("t"), total);
-		
+		//glUniform1f(pdata->shader.getUniformLoc("t"), total);
+
+		t.bind();
+
 		glBindVertexArray(vao);
 		//glDrawArrays(GL_POINTS, 0, 6);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
