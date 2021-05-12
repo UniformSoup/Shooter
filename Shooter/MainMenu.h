@@ -9,6 +9,12 @@
 
 #include "Texture.h"
 
+struct Plane
+{
+	glm::vec3 n;
+	float d;
+};
+
 const float imageverts[] = {
 	-0.5f, -0.5f, 0.f,
 	0.5f, 0.5f, 0.f,
@@ -17,7 +23,6 @@ const float imageverts[] = {
 	-0.5f, -0.5f, 0.f,
 	0.5f, -0.5f, 0.f,
 	0.5f, 0.5f, 0.f
-
 };
 const float imagetexco[] =
 {
@@ -38,7 +43,7 @@ class MainMenu : public GameState
 	Texture t;
 public:
 	MainMenu(Data* const pdata)
-		: GameState(pdata), t("assets/harold.png")
+		: GameState(pdata), t("assets/travis-man.png")
 	{
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &vertbuf);
@@ -88,7 +93,14 @@ public:
 			)
 		);
 
-
+		if (glfwGetKey(pdata->win, GLFW_KEY_Q))
+		{
+			glUniform1i(pdata->shader.getUniformLoc("flip"), true);
+		}
+		else if (glfwGetKey(pdata->win, GLFW_KEY_E))
+		{
+			glUniform1i(pdata->shader.getUniformLoc("flip"), false);
+		}
 
 		total += (float) elapsed.count();
 	};
@@ -99,7 +111,7 @@ public:
 		pdata->shader.use();
 
 		pdata->cam.setView(pdata->shader.getUniformLoc("view"));
-		//glUniform1f(pdata->shader.getUniformLoc("t"), total);
+		glUniform1f(pdata->shader.getUniformLoc("t"), total);
 
 		t.bind();
 

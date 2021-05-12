@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "MainMenu.h"
 
+
 std::string getErrorEnumString(const GLenum& err)
 {
 	switch (err)
@@ -19,7 +20,8 @@ std::string getErrorEnumString(const GLenum& err)
 void Game::checkForGLErrors()
 {
 	auto e = glGetError();
-	if (e != GL_NO_ERROR) throw std::runtime_error("OpenGL Error: " + getErrorEnumString(e));
+	if (e != GL_NO_ERROR)
+		throw std::runtime_error("OpenGL Error: " + getErrorEnumString(e));
 }
 
 Game::Game(const char* title, const int& width, const int& height)
@@ -44,12 +46,16 @@ Game::Game(const char* title, const int& width, const int& height)
 
 	data.windowwidth = width;
 	data.windowheight = height;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 int Game::run()
 {
 	try
 	{
+		throw std::exception("Test Exception.");
 		//data.shader.create("shaders/shader.vert", "shaders/shader.frag");
 		data.shader.create("shaders/shader_texture.vert", "shaders/shader_texture.frag");
 		data.shader.use();
@@ -58,7 +64,7 @@ int Game::run()
 			glm::value_ptr(glm::perspective(glm::radians(75.0f), (float)(data.windowwidth / data.windowheight), 0.1f, 200.0f)));
 
 		glClearColor(1.f, 0.f, 1.f, 1.f);
-		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 
 		data.stateMachine.addState(new MainMenu(&data));
 
@@ -76,9 +82,16 @@ int Game::run()
 	catch (const std::exception& e)
 	{
 		glfwTerminate();
+#ifdef _DEBUG
 		std::cerr << e.what() << '\n';
-		std::cout << "Press Enter to continue...\n";
+		std::cerr << "Press Enter to continue...\n";
 		std::cin.get();
+#else
+		std::ofstream log("log.txt", std::ifstream::app);
+		auto time = std::time(nullptr);
+		log << std::put_time(std::localtime(&time), "%F %T\n") << e.what() << "\n\n";
+		log.close();
+#endif
 
 		return EXIT_FAILURE;
 	}
