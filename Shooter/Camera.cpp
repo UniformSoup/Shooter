@@ -30,19 +30,19 @@ void Camera::move(const float& dt, const Direction& d)
 
 void Camera::rotate(const float& dx, const float& dy)
 {
-	glm::vec2 angles = getAngles(direction);
+	glm::vec2 angles = getAnglesFromDirection(direction);
 	angles.x += dx; angles.y += dy;
 	if (abs(angles.y) > ylimit) angles.y = ylimit * (abs(angles.y) / angles.y);
 
-	direction = getDirection(angles);
+	direction = getDirectionFromAngles(angles);
 }
 
 void Camera::rotate(const glm::vec2& delta_angles)
 {
-	glm::vec2 angles = getAngles(direction);
+	glm::vec2 angles = getAnglesFromDirection(direction);
 	angles += delta_angles;
 	if (abs(angles.y) > ylimit) angles.y = ylimit * (abs(angles.y) / angles.y);
 
-	direction = getDirection(angles);
+	direction = getDirectionFromAngles(angles);
 	// use case: rotate(camera.getSensitivity() * {glm::radians(xpos - windowwidth / 2), glm::radians(windowheight / 2 - ypos)});
 }

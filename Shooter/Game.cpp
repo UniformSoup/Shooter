@@ -55,7 +55,6 @@ int Game::run()
 {
 	try
 	{
-		throw std::exception("Test Exception.");
 		//data.shader.create("shaders/shader.vert", "shaders/shader.frag");
 		data.shader.create("shaders/shader_texture.vert", "shaders/shader_texture.frag");
 		data.shader.use();

@@ -23,18 +23,18 @@ private:
 	glm::vec3 direction, position;
 
 public:
-	inline static glm::vec3 getDirection(const float& dx, const float& dy)
+	inline static glm::vec3 getDirectionFromAngles(const float& dx, const float& dy)
 	{
 		return glm::normalize(glm::vec3(cos(dy) * cos(dx), sin(dy), cos(dy) * sin(dx)));
 	}
 
-	inline static glm::vec3 getDirection(const glm::vec2& angles)
+	inline static glm::vec3 getDirectionFromAngles(const glm::vec2& angles)
 	{
 		return glm::normalize(glm::vec3(cos(angles.y) * cos(angles.x), sin(angles.y), cos(angles.y) * sin(angles.x)));
 	}
 
 	/* Assumes you werent a smoothbrain and passed a normalised vector */
-	inline static glm::vec2 getAngles(const glm::vec3& dir)
+	inline static glm::vec2 getAnglesFromDirection(const glm::vec3& dir)
 	{
 		return glm::vec2(atan2f(dir.z, dir.x), asin(dir.y));
 		//return glm::vec2(asin(dir.z / cos(asin(dir.y))), asin(dir.y));
@@ -51,9 +51,9 @@ public:
 
 	/* Inline Functions */
 
-	inline glm::vec3 getDirection() const { return direction; }
+	inline glm::vec3 getDir() const { return direction; }
 	/* Assumes you werent a smoothbrain and passed a normalised vector */
-	inline void setDirection(const glm::vec3& dir) { direction = dir; }
+	inline void setDir(const glm::vec3& dir) { direction = dir; }
 
 	inline void setPos(const glm::vec3& pos) { position = pos; }
 	inline glm::vec3 getPos() const { return position; }
