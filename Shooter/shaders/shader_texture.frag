@@ -9,8 +9,6 @@ uniform float t = 0.0f;
 
 out vec4 FragColor;
 
-float w = 10.25f;
-
 void main()
 {
 	FragColor = texture(tex, texcoords);

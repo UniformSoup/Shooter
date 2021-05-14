@@ -11,17 +11,23 @@
 
 class Shader
 {
-	GLuint ID, vertexShader, fragmentShader;
+	GLuint ID;
 	GLuint createShader(const std::string& filename, const GLenum& type);
 
 	// Dont Allow Copying
 	Shader(const Shader&) = default;
-	Shader& operator= (const Shader&) = default;
+	Shader& operator=(const Shader&) = default;
 
 public:
-	Shader() : ID(NULL), vertexShader(NULL), fragmentShader(NULL) {};
+	// Shader() : ID(NULL), vertexShader(NULL), fragmentShader(NULL) {};
 	Shader(const char* vertexfile, const char* fragmentfile);
-	~Shader();
+	~Shader() { glDeleteProgram(ID); }
+	
+	Shader& operator=(Shader&& other) noexcept
+	{
+		ID = std::move(other.ID);
+		return *this;
+	}
 
 	void create(const char* vertexfile, const char* fragmentfile);
 	inline unsigned int getID() const { return ID; }

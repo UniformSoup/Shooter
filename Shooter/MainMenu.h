@@ -66,6 +66,9 @@ public:
 	MainMenu(Data* const pdata)
 		: GameState(pdata), t("assets/harold.png")
 	{
+
+		pdata->shader["texture"]->use();
+
 		p = planeFromPoints(
 			glm::vec3(imageverts[0], imageverts[1], imageverts[2]),
 			glm::vec3(imageverts[3], imageverts[4], imageverts[5]),
@@ -125,7 +128,7 @@ public:
 		{
 			bool onPlane = (abs(pt.x) < 0.5f && abs(pt.y) < 0.5f);
 
-			glUniform1i(pdata->shader.getUniformLoc("flip"), onPlane);
+			glUniform1i(pdata->shader["texture"]->getUniformLoc("flip"), onPlane);
 		}
 		
 		total += (float) elapsed.count();
@@ -134,10 +137,10 @@ public:
 	void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pdata->shader.use();
+		pdata->shader["texture"]->use();
 
-		pdata->cam.setView(pdata->shader.getUniformLoc("view"));
-		glUniform1f(pdata->shader.getUniformLoc("t"), total*3.f);
+		pdata->cam.setView(pdata->shader["texture"]->getUniformLoc("view"));
+		glUniform1f(pdata->shader["texture"]->getUniformLoc("t"), total*3.f);
 
 		t.bind();
 

@@ -44,21 +44,15 @@ unsigned int Shader::createShader(const std::string& filename, const GLenum& typ
 }
 
 Shader::Shader(const char* vertexfile, const char* fragmentfile)
-	: ID(NULL), vertexShader(NULL), fragmentShader(NULL)
+	: ID(NULL)
 {
 	create(vertexfile, fragmentfile);
-}
-
-Shader::~Shader()
-{
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-	glDeleteProgram(ID);
 }
 
 void Shader::create(const char* vertexfile, const char* fragmentfile)
 {
 	if (ID) this->~Shader();
+	GLuint vertexShader, fragmentShader;
 
 	ID = glCreateProgram();
 	vertexShader = createShader(vertexfile, GL_VERTEX_SHADER);
@@ -69,6 +63,8 @@ void Shader::create(const char* vertexfile, const char* fragmentfile)
 	glAttachShader(ID, fragmentShader);
 	glLinkProgram(ID);
 
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 	// Check the shaders linked:
 	GLint isLinked = 0;
 	glGetProgramiv(ID, GL_LINK_STATUS, &isLinked);
@@ -87,8 +83,6 @@ void Shader::create(const char* vertexfile, const char* fragmentfile)
 
 		std::cerr << vertexfile << " and " << fragmentfile << ":\n" << errorLog;
 #endif
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
 		glDeleteProgram(ID);
 		std::throw_with_nested(std::exception("Failed to link shaders."));
 	}

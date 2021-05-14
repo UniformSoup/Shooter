@@ -40,7 +40,7 @@ public:
 		//return glm::vec2(asin(dir.z / cos(asin(dir.y))), asin(dir.y));
 	}
 
-	Camera(const glm::vec3& pos = glm::vec3(0, 0, 3), const glm::vec3& dir = glm::vec3(0, 0, -1),
+	Camera(const glm::vec3& pos = glm::vec3(0, 0, 1), const glm::vec3& dir = glm::vec3(0, 0, -1),
 		const float& speed = 5.f, const float& sensitivity = 0.05f, const float& yanglelimit = 1.2f);
 
 	glm::mat4 getView() const { return glm::lookAt(position, position + direction, glm::vec3(0, 1, 0)); }
