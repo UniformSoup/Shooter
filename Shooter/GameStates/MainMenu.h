@@ -64,7 +64,7 @@ class MainMenu : public GameState
 	Plane p;
 public:
 	MainMenu(Data* const pdata)
-		: GameState(pdata), t("assets/harold.png")
+		: GameState(pdata), t("Assets/harold.png")
 	{
 
 		pdata->shaders["texture"].use();
