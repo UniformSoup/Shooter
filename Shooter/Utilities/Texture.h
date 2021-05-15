@@ -4,22 +4,22 @@
 #include <glad/glad.h>
 
 #include <string>
-#include <exception>
 #include <stdexcept>
 
 class Texture
 {
 	GLuint ID;
+
 public:
-	Texture(const std::string& filename)
-		: ID(NULL)
+	Texture(const std::string& filename) : ID(NULL)
 	{
 		stbi_set_flip_vertically_on_load(true);
+		
 		int width, height, channels;
 		unsigned char* img = (unsigned char*) stbi_load(filename.c_str(), &width, &height, &channels, STBI_default);
 
 		if (img == NULL)
-			std::throw_with_nested(std::runtime_error("Could not read: " + filename));
+			std::throw_with_nested(std::runtime_error("Could not read: " + filename + "."));
 
 		glGenTextures(1, &ID);
 		glBindTexture(GL_TEXTURE_2D, ID);
@@ -32,6 +32,7 @@ public:
 		glGenerateMipmap(GL_TEXTURE_2D);
 		
 		GLenum format;
+		
 		switch (channels)
 		{
 		case STBI_rgb:
@@ -47,7 +48,7 @@ public:
 			format = GL_LUMINANCE_ALPHA;
 			break;*/
 		default:
-			std::throw_with_nested(std::runtime_error("Unknown image format for: " + filename));
+			std::throw_with_nested(std::runtime_error("Unknown image format for: " + filename + "."));
 			break;
 		}
 

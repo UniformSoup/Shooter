@@ -39,7 +39,7 @@ void Game::checkForGLErrors()
 			+ getFboErrorString(glCheckFramebufferStatus(GL_FRAMEBUFFER)));
 }
 
-Game::Game(const char* title, const int& width, const int& height)
+Game::Game(const int& width, const int& height)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -49,7 +49,9 @@ Game::Game(const char* title, const int& width, const int& height)
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	data.win = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	data.win = glfwCreateWindow(width, height, 
+		(std::string("Shooter Version ") + std::to_string(MAJOR(version)) + '.' + std::to_string(MINOR(version))).c_str(),
+		nullptr, nullptr);
 
 	glfwMakeContextCurrent(data.win);
 	glfwSetCursorPos(data.win, width / 2.f, height / 2.f);

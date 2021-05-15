@@ -3,8 +3,9 @@
 #include <stb_image.h>
 #include "../GameStates/Game.h"
 
+/* Could take resolution as cmd line argument */
 int main()
 {	
-	Game g("Lesss Goooo", 1080, 720);
+	Game g(1080, 720);
 	return g.run();
 }
