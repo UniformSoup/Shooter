@@ -13,6 +13,12 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{32adbb8c-e6c6-4fa1-b918-b6c3cf5656c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{91906223-3772-4190-8070-6a043d292892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{276e36c1-c247-4e7e-8b43-683bcf40c836}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameStates\Game.cpp">
@@ -29,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\StateMachine.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="include\glad\glad.c">
+      <Filter>include</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -60,6 +69,24 @@
     <ClInclude Include="Utilities\Timing.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="include\GLFW\glfw3.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pl_mpeg.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KHR\khrplatform.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLFW\glfw3native.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glad\glad.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader.frag">
@@ -74,6 +101,12 @@
     <None Include="shaders\shader_texture.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="lib\x64\glfw3.dll">
+      <Filter>lib</Filter>
+    </None>
+    <None Include="lib\x86\glfw3.dll">
+      <Filter>lib</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\harold.png">
@@ -82,5 +115,25 @@
     <Image Include="Assets\travis-man.png">
       <Filter>Assets</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\x86\glfw3.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\x86\glfw3_mt.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\x64\glfw3_mt.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\x64\glfw3.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\x86\glfw3dll.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="lib\x64\glfw3dll.lib">
+      <Filter>lib</Filter>
+    </Library>
   </ItemGroup>
 </Project>

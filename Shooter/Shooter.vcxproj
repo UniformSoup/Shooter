@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="GameStates\Game.cpp" />
     <ClCompile Include="GameStates\MainMenu.cpp" />
+    <ClCompile Include="include\glad\glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utilities\Camera.cpp" />
     <ClCompile Include="Utilities\Shader.cpp" />
@@ -29,6 +30,12 @@
   <ItemGroup>
     <ClInclude Include="GameStates\Game.h" />
     <ClInclude Include="GameStates\MainMenu.h" />
+    <ClInclude Include="include\glad\glad.h" />
+    <ClInclude Include="include\GLFW\glfw3.h" />
+    <ClInclude Include="include\GLFW\glfw3native.h" />
+    <ClInclude Include="include\KHR\khrplatform.h" />
+    <ClInclude Include="include\pl_mpeg.h" />
+    <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="Utilities\Camera.h" />
     <ClInclude Include="Utilities\GameState.h" />
     <ClInclude Include="Utilities\ResourceManager.h" />
@@ -38,6 +45,8 @@
     <ClInclude Include="Utilities\Timing.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="lib\x64\glfw3.dll" />
+    <None Include="lib\x86\glfw3.dll" />
     <None Include="shaders\shader.frag" />
     <None Include="shaders\shader.vert" />
     <None Include="shaders\shader_texture.frag" />
@@ -46,6 +55,14 @@
   <ItemGroup>
     <Image Include="Assets\harold.png" />
     <Image Include="Assets\travis-man.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\x64\glfw3.lib" />
+    <Library Include="lib\x64\glfw3dll.lib" />
+    <Library Include="lib\x64\glfw3_mt.lib" />
+    <Library Include="lib\x86\glfw3.lib" />
+    <Library Include="lib\x86\glfw3dll.lib" />
+    <Library Include="lib\x86\glfw3_mt.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
