@@ -1,76 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{29a33e2f-202d-4053-ad65-85e0a9e9f849}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{1d4b2870-ea63-445f-a8a6-d92033ed8a3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="GameStates">
+      <UniqueIdentifier>{0ec57bd1-52fc-4813-a1e8-d56f4ede1eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{32adbb8c-e6c6-4fa1-b918-b6c3cf5656c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameStates\Game.cpp">
+      <Filter>GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameStates\MainMenu.cpp">
+      <Filter>GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Utilities\Camera.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Utilities\Shader.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Utilities\StateMachine.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GameStates\Game.h">
+      <Filter>GameStates</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GameStates\MainMenu.h">
+      <Filter>GameStates</Filter>
     </ClInclude>
-    <ClInclude Include="Timing.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\Camera.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\GameState.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachine.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\ResourceManager.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\Shader.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\StateMachine.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\Texture.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utilities\Timing.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\shader.vert">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="shaders\shader_texture.frag">
-      <Filter>Source Files</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\shader_texture.vert">
-      <Filter>Source Files</Filter>
+      <Filter>Shaders</Filter>
     </None>
-    <None Include="shaders\shader.frag" />
-    <None Include="shaders\shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\harold.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\travis-man.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

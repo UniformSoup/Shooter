@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "MainMenu.h"
 
-#define SHADER_DIR "shaders/"
+#define SHADER_DIR "Shaders/"
 
 std::string getErrorEnumString(const GLenum& err)
 {

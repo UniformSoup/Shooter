@@ -18,6 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameStates\Game.cpp" />
+    <ClCompile Include="GameStates\MainMenu.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Utilities\Camera.cpp" />
+    <ClCompile Include="Utilities\Shader.cpp" />
+    <ClCompile Include="Utilities\StateMachine.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameStates\Game.h" />
+    <ClInclude Include="GameStates\MainMenu.h" />
+    <ClInclude Include="Utilities\Camera.h" />
+    <ClInclude Include="Utilities\GameState.h" />
+    <ClInclude Include="Utilities\ResourceManager.h" />
+    <ClInclude Include="Utilities\Shader.h" />
+    <ClInclude Include="Utilities\StateMachine.h" />
+    <ClInclude Include="Utilities\Texture.h" />
+    <ClInclude Include="Utilities\Timing.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shader.frag" />
+    <None Include="shaders\shader.vert" />
+    <None Include="shaders\shader_texture.frag" />
+    <None Include="shaders\shader_texture.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\harold.png" />
+    <Image Include="Assets\travis-man.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -150,31 +179,6 @@
       <AdditionalLibraryDirectories>./lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="StateMachine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="StateMachine.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Timing.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\shader.frag" />
-    <None Include="shaders\shader.vert" />
-    <None Include="shaders\shader_texture.frag" />
-    <None Include="shaders\shader_texture.vert" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

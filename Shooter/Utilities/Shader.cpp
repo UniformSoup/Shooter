@@ -43,7 +43,7 @@ GLuint Shader::addShader(const std::string& filename, const GLenum& type)
 	shaderfile.read(&shadersource[0], shadersource.capacity());
 
 	// Compile shader:
-	const GLchar* source = (const GLchar*) shadersource.c_str();
+	const GLchar* source = (const GLchar*) shadersource.c_str(); // dont fucking ask why it takes pointer to pointer.
 	glShaderSource(ShaderID, 1, &source, nullptr);
 	glCompileShader(ShaderID);
 

@@ -1,7 +1,7 @@
 #include <glad/glad.c>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#include "Game.h"
+#include "../GameStates/Game.h"
 
 int main()
 {	

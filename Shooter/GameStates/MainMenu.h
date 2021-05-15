@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GameState.h"
+#include "../Utilities/GameState.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Game.h"
 
 #include "glm/glm.hpp"
 
-#include "Texture.h"
+#include "../Utilities/Texture.h"
 
 struct Plane
 {

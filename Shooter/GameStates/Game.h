@@ -9,11 +9,11 @@
 #include <iomanip>
 #include <vector>
 
-#include "ResourceManager.h"
-#include "Timing.h"
-#include "StateMachine.h"
-#include "Camera.h"
-#include "Shader.h"
+#include "../Utilities/ResourceManager.h"
+#include "../Utilities/Timing.h"
+#include "../Utilities/StateMachine.h"
+#include "../Utilities/Camera.h"
+#include "../Utilities/Shader.h"
 
 struct Data
 {
