@@ -36,10 +36,10 @@
     <ClCompile Include="Utilities\StateMachine.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="include\glad\glad.c">
       <Filter>include</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameStates\Game.h">
