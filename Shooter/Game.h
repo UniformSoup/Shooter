@@ -8,9 +8,8 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include <unordered_map>
-#include <memory>
 
+#include "ResourceManager.h"
 #include "Timing.h"
 #include "StateMachine.h"
 #include "Camera.h"
@@ -22,7 +21,7 @@ struct Data
 	double windowwidth, windowheight;
 	Camera cam;
 	StateMachine stateMachine;
-	std::unordered_map< std::string, std::shared_ptr<Shader> > shader;
+	ResourceManager<Shader> shaders;
 };
 
 class Game

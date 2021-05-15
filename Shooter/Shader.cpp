@@ -1,8 +1,36 @@
 #include "Shader.h"
 
-unsigned int Shader::createShader(const std::string& filename, const GLenum& type)
+std::basic_string<GLchar> Shader::getShaderErrorLog(const GLuint& shader)
 {
-	GLuint shader = glCreateShader(type);
+	GLint errorLen = 0;
+	std::basic_string<GLchar> errorLog;
+
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &errorLen);
+	errorLog.resize(errorLen);
+
+	glGetShaderInfoLog(shader, errorLen, &errorLen, &errorLog[0]);
+	errorLog.shrink_to_fit();
+
+	return errorLog;
+}
+
+std::basic_string<GLchar> Shader::getProgramErrorLog(const GLuint& program)
+{
+	GLint errorLen = 0;
+	std::basic_string<GLchar> errorLog;
+
+	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &errorLen);
+	errorLog.resize(errorLen);
+
+	glGetProgramInfoLog(program, errorLen, &errorLen, &errorLog[0]);
+	errorLog.shrink_to_fit();
+
+	return errorLog;
+}
+
+GLuint Shader::addShader(const std::string& filename, const GLenum& type)
+{
+	GLuint ShaderID = glCreateShader(type);
 
 	std::ifstream shaderfile(filename, std::ifstream::ate);
 	if (!shaderfile.is_open()) 
@@ -16,74 +44,46 @@ unsigned int Shader::createShader(const std::string& filename, const GLenum& typ
 
 	// Compile shader:
 	const GLchar* source = (const GLchar*) shadersource.c_str();
-	glShaderSource(shader, 1, &source, NULL);
-	glCompileShader(shader);
+	glShaderSource(ShaderID, 1, &source, nullptr);
+	glCompileShader(ShaderID);
 
-	GLint isCompiled = 0;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+	GLint isCompiled;
+	glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &isCompiled);
 
 	if (!isCompiled)
 	{
-#ifdef _DEBUG
-		GLint errorLen = 0;
-		std::basic_string<GLchar> errorLog;
-		
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &errorLen);
-		errorLog.resize(errorLen);
-		
-		glGetShaderInfoLog(shader, errorLen, &errorLen, &errorLog[0]);
-		errorLog.shrink_to_fit();
-		
-		std::cerr << filename << ":\n" << errorLog;
-#endif
-		glDeleteShader(shader);
-		std::throw_with_nested(std::runtime_error(filename + " failed to compile."));
+		std::string log = getShaderErrorLog(ShaderID);
+		glDeleteShader(ShaderID);
+		glDeleteProgram(ID);
+		std::throw_with_nested(std::runtime_error(std::string(filename) + " failed to compile:\n" + log));
 	}
+	
+	glAttachShader(ID, ShaderID);
+	glDeleteShader(ShaderID); // Only flags for deletion.
 
-	return shader;
+	return ShaderID;
 }
 
 Shader::Shader(const char* vertexfile, const char* fragmentfile)
-	: ID(NULL)
+	: ID(glCreateProgram())
 {
-	create(vertexfile, fragmentfile);
-}
+	/* Could Expand this to add multiple shaders by taking a vec in constructor */
+	/* Ill add that if I ever use it */
+	std::vector<GLuint> shaderIDs;
+	shaderIDs.push_back(addShader(vertexfile, GL_VERTEX_SHADER));
+	shaderIDs.push_back(addShader(fragmentfile, GL_FRAGMENT_SHADER));
 
-void Shader::create(const char* vertexfile, const char* fragmentfile)
-{
-	if (ID) this->~Shader();
-	GLuint vertexShader, fragmentShader;
-
-	ID = glCreateProgram();
-	vertexShader = createShader(vertexfile, GL_VERTEX_SHADER);
-	fragmentShader = createShader(fragmentfile, GL_FRAGMENT_SHADER);
-
-	// Attach Shaders:
-	glAttachShader(ID, vertexShader);
-	glAttachShader(ID, fragmentShader);
 	glLinkProgram(ID);
 
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-	// Check the shaders linked:
-	GLint isLinked = 0;
+	for (auto& i : shaderIDs) glDetachShader(ID, i); // Finally deletes the shaders
+
+	GLint isLinked;
 	glGetProgramiv(ID, GL_LINK_STATUS, &isLinked);
 
 	if (!isLinked)
 	{
-#ifdef _DEBUG
-		GLint errorLen = 0;
-		std::basic_string<GLchar> errorLog;
-
-		glGetProgramiv(ID, GL_INFO_LOG_LENGTH, &errorLen);
-		errorLog.resize(errorLen);
-
-		glGetProgramInfoLog(ID, errorLen, &errorLen, &errorLog[0]);
-		errorLog.shrink_to_fit();
-
-		std::cerr << vertexfile << " and " << fragmentfile << ":\n" << errorLog;
-#endif
+		std::string log = getProgramErrorLog(ID);
 		glDeleteProgram(ID);
-		std::throw_with_nested(std::exception("Failed to link shaders."));
+		std::throw_with_nested(std::runtime_error("Failed to link shaders:\n" + log));
 	}
 }

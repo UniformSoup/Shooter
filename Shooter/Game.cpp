@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "MainMenu.h"
 
+#define SHADER_DIR "shaders/"
 
 std::string getErrorEnumString(const GLenum& err)
 {
@@ -69,17 +70,19 @@ int Game::run()
 {
 	try
 	{
-		data.shader["basic"] = std::shared_ptr<Shader>(new Shader("shaders/shader.vert", "shaders/shader.frag"));
-		data.shader["texture"] = std::shared_ptr<Shader>(new Shader("shaders/shader_texture.vert", "shaders/shader_texture.frag"));
+		data.shaders.add("basic", new Shader(SHADER_DIR "shader.vert", SHADER_DIR "shader.frag"));
+		data.shaders.add("texture", new Shader(SHADER_DIR "shader_texture.vert", SHADER_DIR "shader_texture.frag"));
 
 		{
 			glm::mat4 perspective = glm::perspective(glm::radians(75.0f), (float)(data.windowwidth / data.windowheight), 0.1f, 200.0f);
-			for (auto& s : data.shader)
+			for (auto& s : data.shaders.getResources())
 			{
 				s.second->use();
 				glUniformMatrix4fv(s.second->getUniformLoc("projection"), 1, GL_FALSE, glm::value_ptr(perspective));
 			}
 		}
+
+		//data.shaders.add("ui", new Shader(SHADER_DIR "ui.vert", "ui.frag"));
 
 		glClearColor(1.f, 0.f, 1.f, 1.f);
 		glEnable(GL_DEPTH_TEST);
