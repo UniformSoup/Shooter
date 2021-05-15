@@ -8,12 +8,11 @@
 /*Simple StateMachine Class*/
 class StateMachine
 {
-	std::stack<GameState*> states;
-	GameState* newState = nullptr;
+	std::stack<std::shared_ptr<GameState>> states;
+	std::shared_ptr<GameState> newState = nullptr;
 	enum class Flag { CONTINUE, ADD, REMOVE, REPLACE } flag = Flag::CONTINUE;
 
 public:
-	~StateMachine();
 	size_t size() const;
 	GameState& getCurrentState() const;
 	void addState(GameState* s);
