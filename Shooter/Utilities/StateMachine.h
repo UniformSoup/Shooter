@@ -3,33 +3,33 @@
 #include <stack>
 
 /* Simple StateMachine Class */
-template <typename T>
+template <typename State>
 class StateMachine
 {
-	std::stack<std::shared_ptr<T>> states;
-	std::shared_ptr<T> newState = nullptr;
+	std::stack<std::shared_ptr<State>> states;
+	std::shared_ptr<State> newState = nullptr;
 	enum class Flag { CONTINUE, ADD, REMOVE, REPLACE } flag = Flag::CONTINUE;
 
 public:
 	size_t size() const { return states.size(); }
-	T& getCurrentState() const { return *states.top(); }
+	State& getCurrentState() const { return *states.top(); }
 	void updateState();
 	void removeState() { flag = Flag::REMOVE; };
-	void addState(T* s)
+	void addState(State* s)
 	{
-		newState = std::shared_ptr<T>(s);
+		newState = std::shared_ptr<State>(s);
 		flag = Flag::ADD;
 	}
-	void replaceState(T* s)
+	void replaceState(State* s)
 	{
-		newState = std::shared_ptr<T>(s);
+		newState = std::shared_ptr<State>(s);
 		flag = Flag::REPLACE;
 	}
 };
 
 /* can throw if you try to remove without checking stack size */
-template <typename T>
-void StateMachine<T>::updateState()
+template <typename State>
+void StateMachine<State>::updateState()
 {
 	switch (flag)
 	{
