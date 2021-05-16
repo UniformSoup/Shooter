@@ -15,8 +15,6 @@
 #include "../Utilities/Camera.h"
 #include "../Utilities/Shader.h"
 
-/* Ripped Straight from the vulkan API with some modifications */
-
 struct Data
 {
 	double windowwidth, windowheight;
