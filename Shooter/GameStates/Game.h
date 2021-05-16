@@ -11,6 +11,7 @@
 #include "../Utilities/ResourceManager.h"
 #include "../Utilities/Timing.h"
 #include "../Utilities/StateMachine.h"
+#include "../Utilities/GameState.h"
 #include "../Utilities/Camera.h"
 #include "../Utilities/Shader.h"
 
@@ -21,7 +22,7 @@ struct Data
 	double windowwidth, windowheight;
 	GLFWwindow* win = nullptr;
 	Camera cam;
-	StateMachine stateMachine;
+	StateMachine<GameState> stateMachine;
 	ResourceManager<Shader> shaders;
 };
 

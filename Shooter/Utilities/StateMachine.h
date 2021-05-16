@@ -2,8 +2,6 @@
 
 #include <stack>
 
-#include "GameState.h"
-
 /* Simple StateMachine Class */
 template <typename T>
 class StateMachine

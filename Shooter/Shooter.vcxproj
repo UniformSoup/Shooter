@@ -25,7 +25,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utilities\Camera.cpp" />
     <ClCompile Include="Utilities\Shader.cpp" />
-    <ClCompile Include="Utilities\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameStates\Game.h" />

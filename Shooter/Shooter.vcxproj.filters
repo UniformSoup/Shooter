@@ -33,9 +33,6 @@
     <ClCompile Include="Utilities\Shader.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\StateMachine.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="include\glad\glad.c">
       <Filter>include</Filter>
