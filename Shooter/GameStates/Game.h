@@ -15,10 +15,6 @@
 #include "../Utilities/Shader.h"
 
 /* Ripped Straight from the vulkan API with some modifications */
-#define MAJOR(x) ((uint32_t) x >> 24)
-#define MINOR(x) (((uint32_t) x >> 16) & 0xFF)
-#define PATCH(x) ((uint32_t) x & 0xFFFF)
-#define VERSION_ID(major, minor, patch) (((uint32_t) major << 24) | ((uint32_t) minor << 16) | (uint32_t) patch)
 
 struct Data
 {
@@ -31,7 +27,7 @@ struct Data
 
 class Game
 {
-	const uint32_t version = VERSION_ID(1, 0, 0);
+	struct { uint32_t major, minor, patch; } const version = {1, 0, 0};
 	Data data;
 	Timing::Clock clk;
 

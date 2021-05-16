@@ -50,12 +50,13 @@ Game::Game(const int& width, const int& height)
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	data.win = glfwCreateWindow(width, height, 
-		(std::string("Shooter Version ") + std::to_string(MAJOR(version)) + '.' + std::to_string(MINOR(version))).c_str(),
+		(std::string("Shooter Version ") + std::to_string(version.major) + '.' + std::to_string(version.minor)).c_str(),
 		nullptr, nullptr);
 
 	glfwMakeContextCurrent(data.win);
 	glfwSetCursorPos(data.win, width / 2.f, height / 2.f);
 	glfwSetInputMode(data.win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	glfwSwapInterval(1);
 	
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
