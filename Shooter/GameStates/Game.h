@@ -14,14 +14,15 @@
 #include "../Utilities/GameState.h"
 #include "../Utilities/Camera.h"
 #include "../Utilities/Shader.h"
+#include "../Utilities/Window.h"
 
 struct Data
 {
-	double windowwidth, windowheight;
-	GLFWwindow* win = nullptr;
+	Window win;
 	Camera cam;
 	StateMachine<GameState> stateMachine;
 	ResourceManager<Shader> shaders;
+	bool isPlaying = true;
 };
 
 class Game
@@ -35,5 +36,5 @@ class Game
 public:
 	Game(const int& width, const int& height);
 	int run();
-	~Game() { glfwDestroyWindow(data.win); glfwTerminate(); }
+	~Game() { glfwTerminate(); }
 };

@@ -84,6 +84,9 @@
     <ClInclude Include="include\glad\glad.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Window.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader.frag">

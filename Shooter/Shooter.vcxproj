@@ -42,6 +42,7 @@
     <ClInclude Include="Utilities\StateMachine.h" />
     <ClInclude Include="Utilities\Texture.h" />
     <ClInclude Include="Utilities\Timing.h" />
+    <ClInclude Include="Utilities\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\x64\glfw3.dll" />

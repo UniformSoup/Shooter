@@ -104,32 +104,70 @@ public:
 	void update(const Timing::duration& elapsed)
 	{
 		glfwPollEvents();
-		if (glfwGetKey(pdata->win, GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(pdata->win, true);
-		if (glfwGetKey(pdata->win, GLFW_KEY_W)) pdata->cam.move((float)elapsed.count(), Direction::FORWARD);
-		if (glfwGetKey(pdata->win, GLFW_KEY_S)) pdata->cam.move((float)elapsed.count(), Direction::BACKWARD);
-		if (glfwGetKey(pdata->win, GLFW_KEY_A)) pdata->cam.move((float)elapsed.count(), Direction::LEFT);
-		if (glfwGetKey(pdata->win, GLFW_KEY_D)) pdata->cam.move((float)elapsed.count(), Direction::RIGHT);
-	
-		double xpos, ypos;
-		glfwGetCursorPos(pdata->win, &xpos, &ypos);
-		glfwSetCursorPos(pdata->win, pdata->windowwidth / 2.f, pdata->windowheight / 2.f);
+		while (pdata->win.hasEvents())
+		{
+			Event e = pdata->win.getEvent();
 
-		pdata->cam.rotate(
-			pdata->cam.getSensitivity() * 
-			glm::vec2(
-				glm::radians(xpos - pdata->windowwidth / 2.f),
-				glm::radians(pdata->windowheight / 2.f - ypos)
-			)
-		);
+			switch (e.category)
+			{
+			case EventType::WindowClose:
+				pdata->isPlaying = false;
+				break;
+			case EventType::Key:
+				if (e.data.Key.action == GLFW_PRESS)
+				{
+					if (e.data.Key.keycode == GLFW_KEY_ESCAPE)
+						pdata->isPlaying = false;
+					if (e.data.Key.keycode == GLFW_KEY_LEFT_ALT)
+						pdata->win.setCursorMode(GLFW_CURSOR_NORMAL);
+				}
+				else if (e.data.Key.action == GLFW_RELEASE)
+				{
+					if (e.data.Key.keycode == GLFW_KEY_LEFT_ALT)
+					{
+						pdata->win.setCursorMode(GLFW_CURSOR_HIDDEN);
+						glm::ivec2 size = pdata->win.getWindowSize();
+						pdata->win.setMousePos(size / 2);
+					}
+				}
+				//std::cout << e.data.KeyEvent.key << ' ' << e.data.KeyEvent.mods << ' ' << e.data.KeyEvent.action << '\n';
+				break;
+			default:
+				break;
+
+			}
+		}
+		if (pdata->win.isKeyDown(GLFW_KEY_W))
+			pdata->cam.move((float)elapsed.count(), Direction::FORWARD);
+		if (pdata->win.isKeyDown(GLFW_KEY_S))
+			pdata->cam.move((float)elapsed.count(), Direction::BACKWARD);
+		if (pdata->win.isKeyDown(GLFW_KEY_A))
+			pdata->cam.move((float)elapsed.count(), Direction::LEFT);
+		if (pdata->win.isKeyDown(GLFW_KEY_D))
+			pdata->cam.move((float)elapsed.count(), Direction::RIGHT);
+
+		if (pdata->win.isKeyDown(GLFW_KEY_LEFT_ALT) == GLFW_RELEASE)
+		{
+			glm::dvec2 pos = pdata->win.getMousePos();
+			glm::ivec2 size = pdata->win.getWindowSize();
+			pdata->win.setMousePos(size / 2);
+
+			pdata->cam.rotate(
+				pdata->cam.getSensitivity() * glm::vec2(
+					glm::radians(pos.x - size.x / 2.f),
+					glm::radians(size.y / 2.f - pos.y) // negative because starts from top left.
+				)
+			);
+		}
 
 		glm::vec3 pt;
-		if (pointOnPlane(p, pdata->cam.getPos(), pdata->cam.getDir()*100.f, pt))
+		if (pointOnPlane(p, pdata->cam.getPos(), pdata->cam.getDir() * 100.f, pt))
 		{
 			bool onPlane = (abs(pt.x) < 0.5f && abs(pt.y) < 0.5f);
 
 			glUniform1i(pdata->shaders["texture"].getUniformLoc("flip"), onPlane);
 		}
-		
+
 		total += (float) elapsed.count();
 	};
 
@@ -147,6 +185,6 @@ public:
 		//glDrawArrays(GL_POINTS, 0, 6);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		glfwSwapBuffers(pdata->win);
+		pdata->win.swapBuffers();
 	};
 };

@@ -42,29 +42,10 @@ void Game::checkForGLErrors()
 Game::Game(const int& width, const int& height)
 {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	data.win.create((std::string("Shooter Version ") + std::to_string(version.major) + '.' + std::to_string(version.minor)).c_str());
 
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-	data.win = glfwCreateWindow(width, height, 
-		(std::string("Shooter Version ") + std::to_string(version.major) + '.' + std::to_string(version.minor)).c_str(),
-		nullptr, nullptr);
-
-	glfwMakeContextCurrent(data.win);
-	glfwSetCursorPos(data.win, width / 2.f, height / 2.f);
-	glfwSetInputMode(data.win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	glfwSwapInterval(1);
-	
-	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-	glViewport(0, 0, width, height);
-
-	data.windowwidth = width;
-	data.windowheight = height;
-
+	glm::ivec2 size = data.win.getWindowSize();
+	glViewport(0, 0, size.x, size.y);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -75,9 +56,12 @@ int Game::run()
 	{
 		data.shaders.add("basic", new Shader(SHADER_DIR "shader.vert", SHADER_DIR "shader.frag"));
 		data.shaders.add("texture", new Shader(SHADER_DIR "shader_texture.vert", SHADER_DIR "shader_texture.frag"));
+		
+		data.win.setMousePos(data.win.getWindowSize() / 2);
 
 		{
-			glm::mat4 perspective = glm::perspective(glm::radians(75.0f), (float)(data.windowwidth / data.windowheight), 0.1f, 200.0f);
+			glm::ivec2 size = data.win.getWindowSize();
+			glm::mat4 perspective = glm::perspective(glm::radians(75.0f), (size.x / (float) size.y), 0.1f, 200.0f);
 			for (auto& s : data.shaders.getResources())
 			{
 				s.second->use();
@@ -92,7 +76,7 @@ int Game::run()
 
 		data.stateMachine.addState(new MainMenu(&data));
 
-		while (!glfwWindowShouldClose(data.win))
+		while (data.isPlaying)
 		{
 			data.stateMachine.updateState();	
 			data.stateMachine.getCurrentState().update(clk());
