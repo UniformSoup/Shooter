@@ -39,13 +39,14 @@ void Game::checkForGLErrors()
 			+ getFboErrorString(glCheckFramebufferStatus(GL_FRAMEBUFFER)));
 }
 
-Game::Game(const int& width, const int& height)
+Game::Game(const Settings& s)
 {
 	glfwInit();
 	data.win.create((std::string("Shooter Version ") + std::to_string(version.major) + '.' + std::to_string(version.minor)).c_str());
 
-	glm::ivec2 size = data.win.getWindowSize();
-	glViewport(0, 0, size.x, size.y);
+	data.win.setWindowSize(s.res);
+
+	glViewport(0, 0, s.res.x, s.res.y);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -54,8 +55,8 @@ int Game::run()
 {
 	try
 	{
-		data.shaders.add("basic", new Shader(SHADER_DIR "shader.vert", SHADER_DIR "shader.frag"));
-		data.shaders.add("texture", new Shader(SHADER_DIR "shader_texture.vert", SHADER_DIR "shader_texture.frag"));
+		data.shaders.add("basic", std::make_shared<Shader>(SHADER_DIR "shader.vert", SHADER_DIR "shader.frag"));
+		data.shaders.add("texture", std::make_shared<Shader>(SHADER_DIR "shader_texture.vert", SHADER_DIR "shader_texture.frag"));
 		
 		data.win.setMousePos(data.win.getWindowSize() / 2);
 
@@ -74,13 +75,13 @@ int Game::run()
 		glClearColor(1.f, 0.f, 1.f, 1.f);
 		glEnable(GL_DEPTH_TEST);
 
-		data.stateMachine.addState(new MainMenu(&data));
+		stateMachine.addState(std::make_shared<MainMenu>(&data, &stateMachine));
 
-		while (data.isPlaying)
+		while (data.win.isOpen())
 		{
-			data.stateMachine.updateState();	
-			data.stateMachine.getCurrentState().update(clk());
-			data.stateMachine.getCurrentState().render();
+			stateMachine.updateState();	
+			stateMachine.getCurrentState().update(clk());
+			stateMachine.getCurrentState().render();
 			checkForGLErrors();
 		}
 

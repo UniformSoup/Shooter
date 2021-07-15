@@ -62,8 +62,8 @@ class MainMenu : public GameState
 	Texture t;
 	Plane p;
 public:
-	MainMenu(Data* const pdata)
-		: GameState(pdata), t("Assets/harold.png")
+	MainMenu(Data* const pdata, StateMachine<GameState>* const machine)
+		: GameState(pdata, machine), t("Assets/harold.png")
 	{
 
 		pdata->shaders["texture"].use();
@@ -111,13 +111,13 @@ public:
 			switch (e.category)
 			{
 			case EventType::WindowClose:
-				pdata->isPlaying = false;
+				pdata->win.close();
 				break;
 			case EventType::Key:
 				if (e.data.Key.action == GLFW_PRESS)
 				{
 					if (e.data.Key.keycode == GLFW_KEY_ESCAPE)
-						pdata->isPlaying = false;
+						pdata->win.close();
 					if (e.data.Key.keycode == GLFW_KEY_LEFT_ALT)
 						pdata->win.setCursorMode(GLFW_CURSOR_NORMAL);
 				}
@@ -137,6 +137,7 @@ public:
 
 			}
 		}
+
 		if (pdata->win.isKeyDown(GLFW_KEY_W))
 			pdata->cam.move((float)elapsed.count(), Direction::FORWARD);
 		if (pdata->win.isKeyDown(GLFW_KEY_S))

@@ -21,6 +21,9 @@ struct Event
 
 class Window
 {
+	GLFWmonitor* monitor;
+	const GLFWvidmode* mode;
+
 	GLFWwindow* win = nullptr;
 	std::queue<Event> eventQueue;
 	// std::mutex m; no need since its all done in glfwPollEvents() not in a seperate thread.
@@ -74,18 +77,19 @@ public:
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 		// Create Window:
-		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+		monitor = glfwGetPrimaryMonitor();
+		mode = glfwGetVideoMode(monitor);
 
 		win = glfwCreateWindow(mode->width / 2, mode->height / 2, title, nullptr, nullptr);
+
 		glfwSetWindowPos(win, (mode->width) / 4, (mode->height) / 4);
+		glfwSetWindowAspectRatio(win, mode->width / 2, mode->height / 2); // locks the aspect ratio
+		glfwSetCursorPos(win, mode->width / 2.0, mode->height / 2.0);
 
 		glfwMakeContextCurrent(win);
 		glfwSwapInterval(1);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-		glfwSetWindowAspectRatio(win, mode->width / 2, mode->height / 2); // locks the aspect ratio
-		glfwSetCursorPos(win, mode->width / 2.0, mode->height / 2.0);
 		glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 		// Apply Event Hooks:
@@ -122,6 +126,13 @@ public:
 		glm::ivec2 ret;
 		glfwGetWindowSize(win, &ret.x, &ret.y);
 		return ret;
+	}
+	void setWindowSize(const glm::ivec2& res)
+	{
+		glfwSetWindowSize(win, res.x, res.y);
+		glfwSetWindowAspectRatio(win, res.x, res.y);
+		glfwSetWindowPos(win, (mode->width) / 2 - res.x / 2, (mode->height) / 2 - res.y / 2);
+		glfwSetCursorPos(win, mode->width / 2.0, mode->height / 2.0);
 	}
 	void setMousePos(const glm::ivec2& pos)
 	{

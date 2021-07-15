@@ -8,33 +8,24 @@
 #include <iomanip>
 #include <vector>
 
-#include "../Utilities/ResourceManager.h"
-#include "../Utilities/Timing.h"
-#include "../Utilities/StateMachine.h"
 #include "../Utilities/GameState.h"
-#include "../Utilities/Camera.h"
-#include "../Utilities/Shader.h"
-#include "../Utilities/Window.h"
 
-struct Data
+struct Settings
 {
-	Window win;
-	Camera cam;
-	StateMachine<GameState> stateMachine;
-	ResourceManager<Shader> shaders;
-	bool isPlaying = true;
+	glm::ivec2 res;
 };
 
 class Game
 {
 	struct { uint32_t major, minor, patch; } const version = {1, 0, 0};
 	Data data;
+	StateMachine<GameState> stateMachine;
 	Timing::Clock clk;
 
 	void checkForGLErrors();
 
 public:
-	Game(const int& width, const int& height);
+	Game(const Settings& s);
 	int run();
 	~Game() { glfwTerminate(); }
 };
